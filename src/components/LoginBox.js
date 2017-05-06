@@ -20,7 +20,6 @@ export default class LoginBox extends React.Component {
         this.state = {
             username: '',
             password: '',
-            pendingLoginRequest:false,
         }
     }
 
@@ -107,6 +106,4 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#CCC',
     }
-
-
 });
