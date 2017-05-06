@@ -110,7 +110,7 @@ export default class LoginScreen extends React.Component {
                             style={this.state.sendRequest? this.loggedIn?styles.textInputWrap:styles.textInputWrapErr : styles.textInputWrap}>
                             <TextInput
                                 style={styles.textInput}
-                                placeholder="jb-1234"
+                                placeholder="mm-1234"
                                 onChangeText={(text) => this.setState({username:text})}
                                 keyboardType="phone-pad"
                                 autoCorrect={false}
@@ -209,12 +209,12 @@ const styles = StyleSheet.create({
     },
     textField_2: {
         fontSize: 10,
-        color: '#CCC',
+        color: 'gray',
         marginVertical: 5,
     },
     textInputWrap: {
         borderBottomWidth: 1,
-        borderBottomColor: '#CCC',
+        borderBottomColor: 'gray',
     },
     textInputWrapErr: {
         borderBottomWidth: 1,
