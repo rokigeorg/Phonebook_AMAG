@@ -15,14 +15,49 @@ export default class SearchScreen extends React.Component {
         headerBackTitle: 'Back'
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            searchMK:"",
-            searchName:"",
-            searchTel:""
+            searchMK: "",
+            searchName: "",
+            searchTel: ""
         }
     }
+
+    onButtonPress() {
+        const {navigation} = this.props;
+        const {state, setParams, navigate} = navigation;
+        const {params} = state;
+
+        //get the AOM
+        let AOM = params.AOM;
+        //send Request to server
+        let AMAGUsers = this.sendRequestToServer();
+        //navigate to next screen
+        //pass return values as para
+        navigate('Results', {AOM: AOM, AMAGUser: AMAGUsers});
+
+    }
+
+    sendRequestToServer(_obj) {
+        let {searchMK, searchName, searchTel} = this.state;
+
+        if (searchMK != "") {
+            //requests the Mitarbeiterkürzel from REST interface
+            console.log(this.state.searchMK);
+        }
+        if (searchName != "") {
+            //requests the Name from REST interface
+            console.log(this.state.searchName);
+        }
+        if (searchTel != "") {
+            //requests the Telefonnummer from REST interface
+            console.log(this.state.searchTel);
+        }
+
+        return require('./../data/fbdata.json');
+    }
+
 
     render() {
         return (
@@ -60,6 +95,15 @@ export default class SearchScreen extends React.Component {
                         onChangeText={(text) => this.setState({searchTel:text})}
                     />
                 </View>
+
+                <View style={styles.btnWrap}>
+                    <Button
+                        onPress={() => this.onButtonPress()}
+                        title="Suche"
+                        color="#000"
+                        value="Suche"
+                    />
+                </View>
             </View>
         );
     }
@@ -74,7 +118,7 @@ const styles = StyleSheet.create({
     },
     textInputWrap: {
         borderBottomWidth: 1,
-        borderBottomColor: '#CCC',
+        borderBottomColor: 'gray',
     },
     textInput: {
         fontSize: 20,
@@ -85,5 +129,11 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: 'gray',
         marginVertical: 5,
+    },
+    btnWrap: {
+        flex: 1,
+        marginVertical: 30,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
     },
 });

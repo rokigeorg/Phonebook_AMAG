@@ -63,14 +63,16 @@ export default class LoginScreen extends React.Component {
 
         let Apiomate = {
             name: "ApiomatObj",
-            fct: ()=>console.log("Say hey")
-        };
+            fct: ()=>console.log("Say hey"),
+            data1:[]}
+        ;
         let retrunFromServer = true;
         //handle the server return
         if (retrunFromServer) {
             this.setState({loggedIn: true});
             console.log("loggedIn:", this.state.loggedIn);
 
+            // switch screens after successful LDAP check
             this.validLDAP(Apiomate);
         }
 
@@ -78,11 +80,7 @@ export default class LoginScreen extends React.Component {
 
     validLDAP(_obj) {
         const {navigate} = this.props.navigation;
-        console.log(this.props.navigation);
-        console.log(navigate);
-
         navigate('Search', {AOM: _obj});
-
     }
 
 
@@ -168,7 +166,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     btnWrap: {
-        marginVertical: 25,
+        marginVertical: 30,
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
