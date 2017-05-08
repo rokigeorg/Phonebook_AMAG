@@ -30,8 +30,7 @@ export default class ResultsScreen extends React.Component {
         
         //change the screen to the detail view and pass the details to the screen
         navigate('Details', {AOM:AOM, detailsAMAGUser: _item});
-
-
+        
     };
 
     render() {
