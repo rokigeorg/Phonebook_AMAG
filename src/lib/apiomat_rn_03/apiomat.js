@@ -2985,10 +2985,10 @@ if (typeof exports === "undefined") {
   };
   //Apiomat.User.AOMBASEURL = "http://192.168.178.212:8080/yambas/rest/apps/AMAG"; //glenn
   //Apiomat.User.AOMAPIKEY = "25267365496506827"; // glenn
-  Apiomat.User.AOMBASEURL = "http://192.168.178.60:8080/yambas/rest/apps/AMAG"; //Lars
-  Apiomat.User.AOMAPIKEY = "2728425447826473812"; //Lars
-  //Apiomat.User.AOMBASEURL = "https://epdemo.apiomat.enterprises/yambas/rest/apps/AMAG"; //Lars
-  //Apiomat.User.AOMAPIKEY = "2463067928707811267"; //epdemo
+  //Apiomat.User.AOMBASEURL = "http://192.168.178.60:8080/yambas/rest/apps/AMAG"; //Lars
+  //Apiomat.User.AOMAPIKEY = "2728425447826473812"; //Lars
+  Apiomat.User.AOMBASEURL = "https://epdemo.apiomat.enterprises/yambas/rest/apps/AMAG1"; //epdemo
+  Apiomat.User.AOMAPIKEY = "8823685489384378346"; //epdemo
   Apiomat.User.AOMSYS = "LIVE";
   Apiomat.User.AOMSDKVERSION = "2.4.7-";
   Apiomat.User.getUsers = function(query, callback, usePersistentStorage) {

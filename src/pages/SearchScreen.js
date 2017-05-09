@@ -21,7 +21,7 @@ export default class SearchScreen extends React.Component {
             searchMK: "",
             searchName: "",
             searchTel: "",
-            resultsAOM:[]
+            resultsAOM: []
         }
     }
 
@@ -33,12 +33,75 @@ export default class SearchScreen extends React.Component {
         //get the AOM
         let AOM = params.AOM;
         //send Request to server
-        this.sendRequestToServer(AOM);
+        this.sendRequestsToServer(AOM);
 
 
     }
 
-    sendRequestToServer(_obj) {
+    sendMkQuery(_objAOM) {
+        let {searchMK} = this.state;
+        // query statement
+        let queryMk = "initials == \"" + searchMK + "\"";
+
+        _objAOM.AMAGUser.getAMAGUsers(queryMk, {
+                onOk: (result)=> {
+                    console.log("---- sendMkQuery onOk Callback ***");
+                    console.log(result);
+                    if (result == []) {
+                        //if the server has not found anything
+                        this.setState({searchMK: ""});
+                    } else {
+
+                        return result;
+                    }
+                },
+                onError: (err)=> {
+                    console.log("*** Error in sendMkQuery *****")
+                    console.log(err);
+                }
+            }
+        );
+    }
+
+    sendRequestWithSearchNameQuery(_objAOM) {
+        //requests the Name from REST interface
+        let {searchName} = this.state;
+        let queryBoth;
+
+        //build the query
+        let namesArr = searchName.split(" ");
+
+        if (namesArr.length > 1) {
+            queryBoth = "firstName == \"" + namesArr[0] + "\" OR lastName == \"" + namesArr[1] + "\"";
+
+        } else {
+            queryBoth = "firstName == \"" + namesArr[0] + "\" OR lastName == \"" + namesArr[0] + "\"";
+        }
+
+        _objAOM.AMAGUser.getAMAGUsers(queryBoth, {
+                onOk: (result)=> {
+                    console.log("---- sendRequestWithSearchNameQuery onOk Callback ***");
+                    console.log(result);
+                    if (result == []) {
+                        //if the server has not found anything
+                        this.setState({searchName: ""});
+                    } else {
+                        //if the server has found stuff
+                        return result;
+                    }
+                },
+                onError: (err)=> {
+                    console.log(err);
+                }
+            }
+        );
+    }
+
+    sendRequestWithSearchNameQuery(_objAOM) {
+        return [];
+    }
+
+    sendRequestsToServer(_obj) {
         let {searchMK, searchName, searchTel} = this.state;
         let resultsArr = [];//TODO hier weiter machen
 
@@ -47,65 +110,30 @@ export default class SearchScreen extends React.Component {
             //requests the Mitarbeiterkürzel from REST interface
             console.log(this.state.searchMK);
 
-            let queryMk = "initials == \""+searchMK+"\"";
-
-            resultsArr = _obj.AMAGUser.getAMAGUsers(queryMk, {
-                    onOk: (result)=> {
-                        console.log("----***");
-                        console.log(result);
-                        that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
-                        that.changeScreens(_obj,result);
-                    },
-                    onError: (err)=> {
-                        console.log(err);
-                    }
-                }
-            );
-
+            resultsArr = this.sendMkQuery(_obj);
         }
         if (searchName != "") {
-            //requests the Name from REST interface
-            console.log(this.state.searchName);
-            let queryBoth ;
-            let namesArr = searchName.split(" ");
-
-            if(namesArr.length >1){
-                queryBoth = "firstName == \""+namesArr[0]+"\" OR lastName == \""+namesArr[1]+"\"";
-
-            }else{
-                queryBoth = "firstName == \""+namesArr[0]+"\" OR lastName == \""+namesArr[0]+"\"";
-            }
-
-            resultsArr = _obj.AMAGUser.getAMAGUsers(queryBoth, {
-                    onOk: (result)=> {
-                        console.log("----***");
-                        console.log(result);
-                        that.setState({resultsAOM: that.state.resultsAOM.push(result)});
-                        that.changeScreens(_obj,that.state.resultsAOM); //TODO
-                    },
-                    onError: (err)=> {
-                        console.log(err);
-                    }
-                }
-            );
+            resultsArr = this.sendRequestWithSearchNameQuery(_obj,)
         }
         if (searchTel != "") {
             //requests the Telefonnummer from REST interface
             console.log(this.state.searchTel);
+            this.sendRequestWithSearchNameQuery()
+        }
+        if (searchMK != "" || searchName != "" || searchTel != "") {
+            that.changeScreens(_obj, that.state.resultsAOM); //TODO
         }
 
-        return resultsArr;
-        //return require('./../data/fbdata.json');
+
     }
 
-    changeScreens(ApiomatObj, resultArr){
+    changeScreens(ApiomatObj, resultArr) {
         const {navigation} = this.props;
-        let { navigate} = navigation;
+        let {navigate} = navigation;
         //navigate to next screen
         //pass return values as para
         navigate('Results', {AOM: ApiomatObj, AMAGUsers: resultArr});
     }
-
 
 
     render() {
