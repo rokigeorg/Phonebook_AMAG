@@ -38,14 +38,14 @@ export default class ResultsScreen extends React.Component {
         let {state} = this.props.navigation;
         let {params} = state;
         console.log("=============================================");
-        console.log(state);
+        console.log(params.AMAGUsers);
         return (<List style={styles.list}>
                 <FlatList
-                    data={params.AMAGUser}
-                    keyExtractor={item => item.id}
+                    data={params.AMAGUsers}
+                    keyExtractor={item => item.data.id}
                     renderItem={({ item }) => (
                         <ListItem
-                        item={item}
+                        item={item.data}
                         onPressItem={this._onPressItem}
                         />
                     )}
