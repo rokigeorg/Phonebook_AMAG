@@ -9,7 +9,7 @@ import{
     Alert
 } from 'react-native';
 
-let Apiomat = require('../lib/apiomat_rn_09/apiomat');
+let Apiomat = require('../lib/apiomat_rn_10/apiomat');
 
 export default class LoginScreen extends React.Component {
 

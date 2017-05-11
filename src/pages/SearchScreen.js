@@ -47,13 +47,13 @@ export default class SearchScreen extends React.Component {
             //requests the Mitarbeiterkürzel from REST interface
             console.log(this.state.searchMK);
 
-            let queryMk = "initials == \""+searchMK+"\"";
+            let queryMk = "userName == \""+searchMK+"\"";
 
             resultsArr = _obj.AMAGUser.getAMAGUsers(queryMk, {
                     onOk: (result)=> {
                         console.log("----*** searchMK");
                         console.log(result);
-                        that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
+                        //that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
                         that.changeScreens(_obj,result);
                     },
                     onError: (err)=> {
@@ -80,8 +80,8 @@ export default class SearchScreen extends React.Component {
                     onOk: (result)=> {
                         console.log("----*** searchName");
                         console.log(result);
-                        that.setState({resultsAOM: that.state.resultsAOM.push(result)});
-                        that.changeScreens(_obj,that.state.resultsAOM); //TODO
+                        //that.setState({resultsAOM: that.state.resultsAOM.push(result)});//TODO
+                        that.changeScreens(_obj,result); 
                     },
                     onError: (err)=> {
                         console.log(err);

@@ -19,14 +19,14 @@ export default class DetailsScreen extends React.Component {
         let {params} = state;
         let {detailsAMAGUser} = params;
 
-        let addressAmagUser = detailsAMAGUser.addressStreet +" "+ detailsAMAGUser.addressStreetNumber + ", "
-            + detailsAMAGUser.addressZipcode+" " +detailsAMAGUser.addressCity;
+        let addressAmagUser = detailsAMAGUser.imWorkCity +" \n"+ detailsAMAGUser.imHomeTown;// + ", "
+           // + detailsAMAGUser.addressZipcode+" " +detailsAMAGUser.addressCity;
 
         return (
             <View style={styles.wrapper}>
 
                 <View style={styles.headerWrap}>
-                    <Text style={styles.textField_1}>{`${detailsAMAGUser.firstName} ${detailsAMAGUser.lastName}`}</Text>
+                    <Text style={styles.textField_1}>{`${detailsAMAGUser.givenName} ${detailsAMAGUser.sn}`}</Text>
                     <Text style={styles.textField_2}> {detailsAMAGUser.organization}</Text>
 
                     <View style={styles.touchIconWrap}>
@@ -43,12 +43,12 @@ export default class DetailsScreen extends React.Component {
 
                 <View stlye={styles.infosWrap}>
 
-                    <DetailListItem describtion="Phone" userDetail={detailsAMAGUser.telephone}/>
+                    <DetailListItem describtion="Telefon" userDetail={detailsAMAGUser.telephoneNumber}/>
                     <DetailListItem describtion="Mobil" userDetail={detailsAMAGUser.mobile}/>
-                    <DetailListItem describtion="Mail" userDetail={detailsAMAGUser.email}/>
+                    <DetailListItem describtion="Mail" userDetail={detailsAMAGUser.mail}/>
                     <DetailListItem describtion="Adresse" userDetail={addressAmagUser}/>
-                    <DetailListItem describtion="Kürzel" userDetail={'?????'}/>
-                    <DetailListItem describtion="Sprache" userDetail={detailsAMAGUser.language}/>
+                    <DetailListItem describtion="Kürzel" userDetail={detailsAMAGUser.userName}/>
+                    <DetailListItem describtion="Sprache" userDetail={detailsAMAGUser.imLanguageDescription}/>
                 </View>
             </View>
         );

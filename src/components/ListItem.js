@@ -34,10 +34,10 @@ export default class ListItem extends React.Component {
         return (
         <TouchableHighlight onPress={()=>this._onPressButton(this)} >
             <View style={styles.wrapper}>
-                <Text style={styles.textField_1}>{`${item.firstName} ${item.lastName}`}</Text>
+                <Text style={styles.textField_1}>{`${item.givenName} ${item.sn}`}</Text>
                 <View style={styles.tcWrap}>
 
-                    <Text style={styles.textField_2}>{`${item.organization}`}</Text>
+                    <Text style={styles.textField_2}>{`${item.imCompanyCode}`}</Text>
 
                     <View style={styles.iconsWrap}>
                         <Image source={require('./../img/home_icon.png')} style={styles.image}/>
