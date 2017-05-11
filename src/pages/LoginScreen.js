@@ -9,7 +9,7 @@ import{
     Alert
 } from 'react-native';
 
-let Apiomat = require('../lib/apiomat_rn_07/apiomat');
+let Apiomat = require('../lib/apiomat_rn_09/apiomat');
 
 export default class LoginScreen extends React.Component {
 
@@ -48,6 +48,7 @@ export default class LoginScreen extends React.Component {
         user.setPassword(pw);
 
         Apiomat.Datastore.configureWithCredentials(user);
+
         var that = this;
         let saveCB = {
             onOk: function () {

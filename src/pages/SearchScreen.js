@@ -51,7 +51,7 @@ export default class SearchScreen extends React.Component {
 
             resultsArr = _obj.AMAGUser.getAMAGUsers(queryMk, {
                     onOk: (result)=> {
-                        console.log("----***");
+                        console.log("----*** searchMK");
                         console.log(result);
                         that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
                         that.changeScreens(_obj,result);
@@ -78,7 +78,7 @@ export default class SearchScreen extends React.Component {
 
             resultsArr = _obj.AMAGUser.getAMAGUsers(queryBoth, {
                     onOk: (result)=> {
-                        console.log("----***");
+                        console.log("----*** searchName");
                         console.log(result);
                         that.setState({resultsAOM: that.state.resultsAOM.push(result)});
                         that.changeScreens(_obj,that.state.resultsAOM); //TODO
@@ -90,12 +90,30 @@ export default class SearchScreen extends React.Component {
             );
         }
         if (searchTel != "") {
-            //requests the Telefonnummer from REST interface
-            console.log(this.state.searchTel);
+            this.getUserByTel(searchTel, _obj, that)
+
         }
 
         return resultsArr;
         //return require('./../data/fbdata.json');
+    }
+
+    getUserByTel (searchTel, _obj, that) {
+        let resultsArr = [];
+        let queryTel = "telephone == \""+searchTel+"\"";
+
+        resultsArr = _obj.AMAGUser.getAMAGUsers(queryTel, {
+                onOk: (result)=> {
+                    console.log("----*** searchTel");
+                    console.log(result);
+                    that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
+                    that.changeScreens(_obj,result);
+                },
+                onError: (err)=> {
+                    console.log(err);
+                }
+            }
+        );
     }
 
     changeScreens(ApiomatObj, resultArr){
