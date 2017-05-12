@@ -70,10 +70,10 @@ export default class SearchScreen extends React.Component {
             let namesArr = searchName.split(" ");
 
             if(namesArr.length >1){
-                queryBoth = "firstName == \""+namesArr[0]+"\" OR lastName == \""+namesArr[1]+"\"";
+                queryBoth = "givenName like \""+namesArr[0]+"\" OR sn like \""+namesArr[1]+"\"";
 
             }else{
-                queryBoth = "firstName == \""+namesArr[0]+"\" OR lastName == \""+namesArr[0]+"\"";
+                queryBoth = "givenName like \""+namesArr[0]+"\" OR sn like \""+namesArr[0]+"\"";
             }
 
             resultsArr = _obj.AMAGUser.getAMAGUsers(queryBoth, {
@@ -100,7 +100,7 @@ export default class SearchScreen extends React.Component {
 
     getUserByTel (searchTel, _obj, that) {
         let resultsArr = [];
-        let queryTel = "telephone == \""+searchTel+"\"";
+        let queryTel = "telephoneNumber like \""+searchTel+"\"";
 
         resultsArr = _obj.AMAGUser.getAMAGUsers(queryTel, {
                 onOk: (result)=> {
