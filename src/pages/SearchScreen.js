@@ -19,7 +19,8 @@ export default class SearchScreen extends React.Component {
         super(props);
         this.state = {
             searchMK: "",
-            searchName: "",
+            firstName: "",
+            lastName: "",
             searchTel: "",
             resultsAOM:[]
         }
@@ -39,74 +40,45 @@ export default class SearchScreen extends React.Component {
     }
 
     sendRequestToServer(_obj) {
-        let {searchMK, searchName, searchTel} = this.state;
+        let {searchMK, firstName, lastName, searchTel} = this.state;
         let resultsArr = [];//TODO hier weiter machen
 
+        let queryMk = ''
+        let queryFirstName = ''
+        let queryLastName = ''
+        let queryTel = ''
         let that = this;
         if (searchMK != "") {
-            //requests the Mitarbeiterkürzel from REST interface
-            console.log(this.state.searchMK);
-
-            let queryMk = "userName == \""+searchMK+"\"";
-
-            resultsArr = _obj.AMAGUser.getAMAGUsers(queryMk, {
-                    onOk: (result)=> {
-                        console.log("----*** searchMK");
-                        console.log(result);
-                        //that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
-                        that.changeScreens(_obj,result);
-                    },
-                    onError: (err)=> {
-                        console.log(err);
-                    }
-                }
-            );
-
+            queryMk = "userName == \""+searchMK+"\"";
         }
-        if (searchName != "") {
-            //requests the Name from REST interface
-            console.log(this.state.searchName);
-            let queryBoth ;
-            let namesArr = searchName.split(" ");
-
-            if(namesArr.length >1){
-                queryBoth = "givenName like \""+namesArr[0]+"\" OR sn like \""+namesArr[1]+"\"";
-
-            }else{
-                queryBoth = "givenName like \""+namesArr[0]+"\" OR sn like \""+namesArr[0]+"\"";
+        if (firstName != '') {
+            let queryOrFirstName = ''
+            if (searchMK != "") {
+                queryOrFirstName = ' and '
             }
-
-            resultsArr = _obj.AMAGUser.getAMAGUsers(queryBoth, {
-                    onOk: (result)=> {
-                        console.log("----*** searchName");
-                        console.log(result);
-                        //that.setState({resultsAOM: that.state.resultsAOM.push(result)});//TODO
-                        that.changeScreens(_obj,result); 
-                    },
-                    onError: (err)=> {
-                        console.log(err);
-                    }
-                }
-            );
+            queryFirstName = queryOrFirstName + "givenName like \""+firstName+"\"";
+        }
+        if (lastName != '') {
+            let queryOrLastName = ''
+            if (searchMK != "" || firstName != "") {
+                queryOrLastName = ' and '
+            }
+            queryLastName = queryOrLastName + "sn like \""+lastName+"\"";
         }
         if (searchTel != "") {
-            this.getUserByTel(searchTel, _obj, that)
-
+            let queryOrTel = ''
+            if (searchMK != "" || firstName != "" || lastName != "") {
+                queryOrTel = ' and '
+            }
+            let searchTelReplaced = searchTel.replace('+', '')
+            queryTel = queryOrTel + "telephoneNumber like \""+searchTelReplaced+"\"";
         }
+        let query = queryMk + queryFirstName + queryLastName + queryTel
+        console.log('quuuuery', query)
 
-        return resultsArr;
-        //return require('./../data/fbdata.json');
-    }
-
-    getUserByTel (searchTel, _obj, that) {
-        let resultsArr = [];
-        let queryTel = "telephoneNumber like \""+searchTel+"\"";
-
-        resultsArr = _obj.AMAGUser.getAMAGUsers(queryTel, {
+        resultsArr = _obj.AMAGUser.getAMAGUsers(query, {
                 onOk: (result)=> {
-                    console.log("----*** searchTel");
-                    console.log(result);
-                    that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
+                    //that.setState({resultsAOM: that.state.resultsAOM.push(result)}); //TODO
                     that.changeScreens(_obj,result);
                 },
                 onError: (err)=> {
@@ -114,7 +86,11 @@ export default class SearchScreen extends React.Component {
                 }
             }
         );
+
+        return resultsArr
+
     }
+
 
     changeScreens(ApiomatObj, resultArr){
         const {navigation} = this.props;
@@ -142,15 +118,25 @@ export default class SearchScreen extends React.Component {
                     />
                 </View>
 
-                <Text style={styles.textField_2}>Name</Text>
+                <Text style={styles.textField_2}>Vorname</Text>
                 <View
                     style={styles.textInputWrap}>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Max Muster"
-                        keyboardType="phone-pad"
+                        placeholder="Max"
                         autoCorrect={false}
-                        onChangeText={(text) => this.setState({searchName:text})}
+                        onChangeText={(text) => this.setState({firstName:text})}
+                    />
+                </View>
+
+                <Text style={styles.textField_2}>Nachname</Text>
+                <View
+                    style={styles.textInputWrap}>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Muster"
+                        autoCorrect={false}
+                        onChangeText={(text) => this.setState({lastName:text})}
                     />
                 </View>
 
