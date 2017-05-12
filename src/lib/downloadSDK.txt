@@ -1,0 +1,4 @@
+curl http://192.168.178.212:8080/yambas/rest/customers/phimi/apps/AMAG/sdk/react?usedSystem=LIVE -u phimi@apiomattest.com:secret -H "X-apiomat-apikey:25267365496506827" > react.zip
+
+curl <ip-address>/yambas/rest/customers/phimi/apps/<APP-NAME>/sdk/react?usedSystem=<WORKING-SYSTEM> -u <Email>:<PASSWORD> -H "X-apiomat-apikey:<APIOMAT-KEY>" > <ARCHIVE-NAME>.zip
+

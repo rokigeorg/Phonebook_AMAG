@@ -9,19 +9,18 @@ import{
     Alert
 } from 'react-native';
 
-//let Apiomat = require('./../lib/apiomat/apiomat');
-
+let Apiomat = require('../lib/apiomat_rn_10/apiomat');
 
 export default class LoginScreen extends React.Component {
 
-
     static navigationOptions = {
         title: 'Login',
-        headerBackTitle:'Logout'
+        headerBackTitle: 'Logout'
     };
 
     constructor(props) {
         super(props);
+        Apiomat.Datastore.setIsReact(true);
         this.state = {
             username: "",
             password: "",
@@ -36,53 +35,65 @@ export default class LoginScreen extends React.Component {
         !this.state.sendRequest ? this.setState({sendRequest: true}) : console.log("sendRequest");
 
         //get the input values from TextInput
-        let usr = this.state.username;
+       // let usr = "glenn" + new Date().getMilliseconds();//this.state.username;
+        //let pw = "secret";//this.state.password;
+
+        let usr= this.state.username;
         let pw = this.state.password;
-        console.log(usr);
-        console.log(pw);
 
 
-        /*
-         //check the input -> send it to the server
-         let user = new Apiomat.User();
-         user.setUserName(usr);
-         user.setPassword(pw);
-         Apiomat.Datastore.configureWithCredentials(user);
+        //check the input -> send it to the server
+        let user = new Apiomat.User();
+        user.setUserName(usr);
+        user.setPassword(pw);
 
-         let saveCB = {
-         onOk: function () {
-         //call redirect function
-         loadTasks();
-         },
-         onError: function (error) {
-         // call function to show error
+        Apiomat.Datastore.configureWithCredentials(user);
 
-         }
-         };
-         */
+        var that = this;
+        let saveCB = {
+            onOk: function () {
+                //call redirect function
+                that.setState({loggedIn: true});
 
-        let Apiomate = {
-            name: "ApiomatObj",
-            fct: ()=>console.log("Say hey")
+                console.log('***************in CB LoggedIn ??? *****');
+                console.log(that.state.loggedIn);
+
+                // switch screens after successful LDAP check
+                that.validLDAP(Apiomat);
+            },
+            onError: function (error) {
+                console.log(error);
+            }
         };
-        let retrunFromServer = true;
+        //user.save(saveCB);
+        user.loadMe(saveCB);
+        console.log('***************LoggedIn ??? *****');
+        console.log(this.state.loggedIn);
+        /*
+         let Apiomate = {
+         name: "ApiomatObj",
+         fct: ()=>console.log("Say hey"),
+         data1:[]}
+         ;
+
+        let retrunFromServer = false;
         //handle the server return
         if (retrunFromServer) {
             this.setState({loggedIn: true});
             console.log("loggedIn:", this.state.loggedIn);
 
-            this.validLDAP(Apiomate);
+            // switch screens after successful LDAP check
+            this.validLDAP(Apiomat);
         }
+         */
 
     };
 
+
     validLDAP(_obj) {
+        console.log("****** Herer*********")
         const {navigate} = this.props.navigation;
-        console.log(this.props.navigation);
-        console.log(navigate);
-
         navigate('Search', {AOM: _obj});
-
     }
 
 
@@ -168,7 +179,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     btnWrap: {
-        marginVertical: 25,
+        marginVertical: 30,
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
